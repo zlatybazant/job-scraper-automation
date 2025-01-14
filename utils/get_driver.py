@@ -10,4 +10,8 @@ def get_driver():
     Returns:
         webdriver.Chrome: WebDriver instance for Chrome browser.
     """
-    return webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    try:
+
+        return webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    except Exception as e:
+        print(f"An error occured while initializing the ChromeDriver: {e}")
