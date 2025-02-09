@@ -35,7 +35,8 @@ class PracujPL(PracujPlBase):
             if title and url:
                 processed_url = self.remove_search_id(url.get("href"))
 
-                parsed_offers.append(Offer(title=title.text, url=processed_url))
+                parsed_offers.append(
+                    Offer(title=title.text, url=processed_url))
 
         print(f"Parsed {len(parsed_offers)} offers")
         return parsed_offers

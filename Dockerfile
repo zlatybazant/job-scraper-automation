@@ -9,12 +9,13 @@ RUN apt-get update && \
     apt-get install -y --no-install-recommends gcc
 
 COPY requirements.txt .
-COPY .env /app/.env
+
 
 RUN pip install -r requirements.txt
 
 RUN addgroup --system app && adduser --system --group app
 
-COPY ./scraper /app
+COPY main.py /app
+COPY ./scrapers /app
 
 ENTRYPOINT ["python", "main.py"]
