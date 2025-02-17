@@ -10,6 +10,7 @@ class Scraper:
     Attributes:
         _strategy (ScraperStrategy): The strategy used for scraping.
     """
+
     def __init__(self, strategy: ScraperStrategy) -> None:
         """
         Initializes the Scraper with a given strategy.

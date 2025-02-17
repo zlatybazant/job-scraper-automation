@@ -78,6 +78,7 @@ class PracujPL(PracujPlBase):
                 EC.presence_of_element_located(
                     (By.XPATH, "//button[@data-test='button-submitCookie']"))
             )
+            print("TEXT BEFORE CLICKING MODAL")
             modal.click()
         except Exception as e:
             print("No cookie consent found or error occurred:", e)
@@ -85,7 +86,19 @@ class PracujPL(PracujPlBase):
     def get_page_content(self, driver, base_url: str) -> Optional[str]:
         driver.get(base_url)
         print(f"base_url: {base_url}")
-        self.close_modal(driver)
+        try:
+            self.close_modal(driver)
+            print("close_modal passed")
+        except Exception as e:
+            print(f"Error in close_modal: {e}")
+
+        try:
+            driver.save_screenshot(
+                "/home/simonohm/devel/job-scraper-automation/page_debug.png")
+            print("Screenshot saved")
+        except Exception as e:
+            print(f"Error saving screenshot: {e}")
+
         page_content = driver.page_source
         if not page_content:
             print("No page content found.")

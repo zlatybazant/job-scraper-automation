@@ -11,6 +11,7 @@ class PracujPlBase(ScraperStrategy):
 
     @staticmethod
     def remove_search_id(url: str) -> str:
+        print("Removing url IDs")
         url_parts = url.split("?")
         return url_parts[0]
 
