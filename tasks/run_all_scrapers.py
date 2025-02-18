@@ -45,11 +45,13 @@ def run_all_scraper(
             offer_service = OfferService(next(get_db()))
 
         scraper_class, website = url_to_scraper(url)
+        print(f"ras: {scraper_class} {website}")
         if not scraper_class:
             print("Invalid URL or website is not supported")
             continue
 
-        scraped_offers = Scraper(scraper_class).scrape(url, max_offer_duration_days)
+        scraped_offers = Scraper(scraper_class).scrape(
+            url, max_offer_duration_days)
         for offer in scraped_offers:
             if offer.url in urls_to_skip:
                 print("Offer skipped")

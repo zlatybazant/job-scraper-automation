@@ -24,18 +24,18 @@ class ITPracujPL(PracujPlBase):
         parsed_offers = []
 
         soup = BeautifulSoup(content, "html.parser")
-        offers = soup.find_all("div", class_="tiles_b1j1pbod")
-        print(f"Found {len(offers)} offers")
+        offer_links = soup.find_all("a", attrs={"data-test": "link-offer"})
+        print(f"Found {len(offer_links)} offers")
 
-        for offer in offers:
-            title = offer.find("h2")
-            url = offer.find("a", class_="core_n194fgoq")
-
-            if not title or not url:
-                continue
-
-            processed_url = self.remove_search_id(url.get("href"))
-            parsed_offers.append(Offer(title=title.text, url=processed_url))
+        for link in offer_links:
+            title = link.get("title")
+            # Get title from the 'title' attribute
+            url = link.get("href")
+            if title and url:
+                processed_url = self.remove_search_id(url)
+                parsed_offers.append(
+                    Offer(title=title, url=processed_url)
+                )
 
         print(f"Parsed {len(parsed_offers)} offers")
         return parsed_offers

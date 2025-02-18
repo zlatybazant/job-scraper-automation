@@ -32,6 +32,7 @@ class PracujPlBase(ScraperStrategy):
                 "span", {"data-test": "top-pagination-max-page-number"}
             )
             if max_page_element:
+                print(f"max_page: {max_page_element}")
                 return int(max_page_element.text)
         except Exception as e:
             print(e)
@@ -61,14 +62,21 @@ class PracujPlBase(ScraperStrategy):
         offers = []
         base_url = url
 
+        print("before get_driver")
         driver = get_driver()
 
         page_content = self.get_page_content(driver, base_url)
         if not page_content:
+            print("no page content")
             return []
 
-        parsed_offers = self.parse_data(page_content)
-        offers.extend(parsed_offers)
+        print("before parsed_offers in pracujpl_base.py")
+        # print(f"page content: {page_content}")
+        try:
+            parsed_offers = self.parse_data(page_content)
+            offers.extend(parsed_offers)
+        except Exception as e:
+            print(f"Error calling parse_data in base: {e}")
 
         max_page = self.get_max_page_number(page_content)
         for page in range(2, max_page + 1):
@@ -78,8 +86,11 @@ class PracujPlBase(ScraperStrategy):
             if not page_content:
                 break
 
-            parsed_offers = self.parse_data(page_content)
-            offers.extend(parsed_offers)
+            try:
+                parsed_offers = self.parse_data(page_content)
+                offers.extend(parsed_offers)
+            except Exception as e:
+                print(f"Error calling parse_data on page in base: {e}")
 
         print(f"Parsed {len(offers)} offers")
         return offers

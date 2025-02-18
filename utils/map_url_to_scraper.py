@@ -22,6 +22,7 @@ def url_to_scraper(url: str):
                If the URL does not match any supported websites, returns (None, None).
     """
     if "pracuj.pl" in url and "it.pracuj.pl" not in url:
+        print("Creating PracujPL instance")
         return PracujPL(), "PracujPL"
     if "bulldogjob" in url:
         return BulldogJob(), "Bulldogjob"

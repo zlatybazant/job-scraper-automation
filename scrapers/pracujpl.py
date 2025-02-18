@@ -14,6 +14,10 @@ class PracujPL(PracujPlBase):
     A class implementing the scraping strategy for PracujPL website.
     """
 
+    def __init__(self):
+        super().__init__()
+        print("PracujPL instance created")
+
     def parse_data(self, content: str) -> List[Optional[Offer]]:
         # """
         # Parse job offer data from HTML content.
@@ -47,8 +51,12 @@ class PracujPL(PracujPlBase):
         Returns:
             List[Optional[Offer]]: A list of parsed offer inputs.
         """
+        print("before parsed_offers in pracujpl.py")
         parsed_offers = []
+        print(f"parsed_offers: {parsed_offers}")
+        print(f"content: {content}")
         soup = BeautifulSoup(content, "html.parser")
+        print(f"soup: {soup}")
         # Find all links with data-test="link-offer"
         offer_links = soup.find_all("a", attrs={"data-test": "link-offer"})
         print(f"Found {len(offer_links)} offers")
