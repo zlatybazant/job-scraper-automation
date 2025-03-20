@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from datetime import datetime
 
-from typing import Optional
+from typing import Optional, List
 
 
 class Offer(BaseModel):
@@ -11,9 +11,13 @@ class Offer(BaseModel):
     Attributes:
         title (str): The title of the offer.
         url (str): The URL associated with the offer.
+        contract_type (Optional[str]): The type of contract for the offer.
+        requirements (Optional[List[str]]): A list of job requirements.
     """
     title: str
     url: str
+    contract_type: Optional[str] = None
+    requirements: Optional[List[str]] = []
 
 
 class OfferOutput(BaseModel):

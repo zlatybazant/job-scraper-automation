@@ -1,6 +1,6 @@
 import time
 from typing import List, Optional, Dict
-
+import requests
 from config.database import get_db
 from export.googlesheet import GoogleSheet
 from scrapers.abc.scraper import Scraper
@@ -36,6 +36,8 @@ def run_all_scraper(
         print("No websites to scrape")
         return
 
+    all_offers = []
+
     for data in websites:
         url = data.get("url")
         tag = data.get("tag")
@@ -60,6 +62,14 @@ def run_all_scraper(
             if check_title(offer.title, keywords_to_pass):
                 print(f"Offer skipped: {offer.title}")
                 continue
+
+            offer_data = {
+                "title": offer.title,
+                "url": offer.url,
+                "tag": tag
+            }
+
+            all_offers.append(offer_data)
 
             # Save data to .xlsx file
             if export_type == "excel":
@@ -95,3 +105,26 @@ def run_all_scraper(
 
             else:
                 raise ValueError("Invalid export type")
+
+    # Send aggregated data to the webhook
+    json_payload = [
+        offer for offer in all_offers if offer["url"] not in urls_to_skip]
+    print(f"JSON: {json_payload}")
+    if not json_payload:
+        print("No new offers to send to the webhook.")
+        return
+
+    try:
+        response = requests.post(
+            "https://hook.eu2.make.com/z7gdth8t1fes8piaq7r46mcsmattmj8f",
+            json=json_payload
+        )
+        response.raise_for_status()
+        print("Data successfully sent to webhook")
+    except requests.exceptions.RequestException as e:
+        print(f"Failed to send data to webhook: {e}")
+
+    # Append newly found offer URLs to urls_to_skip.txt
+    with open("urls_to_skip.txt", "a", encoding="utf-8") as file:
+        for offer in all_offers:
+            file.write(f"{offer['url']}\n")

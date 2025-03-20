@@ -19,31 +19,6 @@ class PracujPL(PracujPlBase):
         print("PracujPL instance created")
 
     def parse_data(self, content: str) -> List[Optional[Offer]]:
-        # """
-        # Parse job offer data from HTML content.
-
-        # Args:
-        #    content (str): The HTML content to parse.
-
-        # Returns:
-        #    List[Optional[Offer]]: A list of parsed offer inputs.
-        # """
-        # parsed_offers = []
-        # soup = BeautifulSoup(content, "html.parser")
-        # offers = soup.find_all("div", class_="tiles_c1k2agp8")
-        # print(f"Found {len(offers)} offers")
-
-        # for offer in offers:
-        #    title = offer.find("h2")
-        #    url = offer.find("a", class_="core_n194fgoq")
-        #    if title and url:
-        #        processed_url = self.remove_search_id(url.get("href"))
-
-        #        parsed_offers.append(
-        #            Offer(title=title.text, url=processed_url))
-
-        # print(f"Parsed {len(parsed_offers)} offers")
-        # return parsed_offers
         """
         Parse job offer data from HTML content.
         Args:
@@ -51,12 +26,8 @@ class PracujPL(PracujPlBase):
         Returns:
             List[Optional[Offer]]: A list of parsed offer inputs.
         """
-        print("before parsed_offers in pracujpl.py")
         parsed_offers = []
-        print(f"parsed_offers: {parsed_offers}")
-        print(f"content: {content}")
         soup = BeautifulSoup(content, "html.parser")
-        print(f"soup: {soup}")
         # Find all links with data-test="link-offer"
         offer_links = soup.find_all("a", attrs={"data-test": "link-offer"})
         print(f"Found {len(offer_links)} offers")

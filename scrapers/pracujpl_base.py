@@ -49,6 +49,9 @@ class PracujPlBase(ScraperStrategy):
     def get_page_content(self, driver, base_url: str) -> Optional[str]:
         pass
 
+    def get_job_page_content(self, url: str) -> Optional[str]:
+        pass
+
     def scrape(self, url: str, max_offer_duration_days: Optional[int] = None) -> List[Optional[Offer]]:
         """
         Scrapes job offers from ITPracujPL website.
