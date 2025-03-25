@@ -16,6 +16,9 @@ def get_driver():
         driver_path = '/home/simonohm/.wdm/drivers/chromedriver/linux64/133.0.6943.53/chromedriver-linux64/chromedriver'
         if not os.path.isfile(driver_path):
             raise FileNotFoundError(f"ChromeDriver not found at {driver_path}")
-        return webdriver.Chrome(service=ChromeService(driver_path))
+        options = webdriver.ChromeOptions()
+        options.add_argument("--headless")
+        options.add_argument("--disble-gpu")
+        return webdriver.Chrome(service=ChromeService(driver_path), options=options)
     except Exception as e:
         print(f"An error occured while initializing the ChromeDriver: {e}")

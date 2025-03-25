@@ -63,13 +63,8 @@ def run_all_scraper(
                 print(f"Offer skipped: {offer.title}")
                 continue
 
-            offer_data = {
-                "title": offer.title,
-                "url": offer.url,
-                "tag": tag
-            }
-
-            all_offers.append(offer_data)
+            all_offers.append({**offer.dict(), "tag": tag,
+                              "contract_type": offer.contract_type})
 
             # Save data to .xlsx file
             if export_type == "excel":
